@@ -15,14 +15,23 @@ window.addEventListener('load', ()=> {
       fetch(api)
         .then(response => {
           return response.json();
-      })
-      .then(data => {
-        const { temperature, summary } = data.currently;
-        //Set DOM Elements from API
-        temperatureDegree.textContent = temperature;
-        temperatureDescription.textContent = summary;
-        locationTimezone.textContent = data.timezone;
-      });
+        })
+        .then(data => {
+          const { temperature, summary, icon } = data.currently;
+          //Set DOM Elements from API
+          temperatureDegree.textContent = temperature;
+          temperatureDescription.textContent = summary;
+          locationTimezone.textContent = data.timezone;
+          //Set Icon
+          setIcons(icon, document.querySelector(".icon"));
+        });
     });
+  }
+
+  function setIcons(icon, iconID) {
+      const skycons = new Skycons({color: "white"});
+      const currentIcon = icon.replace(/-/g, "_").toUpperCase();
+      skycons.play();
+      return skycons.set(iconID, Skycons[currentIcon]);
   }
 });
